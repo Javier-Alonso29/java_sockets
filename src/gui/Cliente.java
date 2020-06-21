@@ -5,17 +5,30 @@
  */
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+
 /**
  *
  * @author Carlos Javier Alonso Caldera
  * @author Carlos Vela de la Rosa
  */
 public class Cliente extends javax.swing.JFrame {
-
+    
+    protected String nombre;
+    protected final String IP;
+    protected final int PUERTO;
     /**
      * Creates new form Cliente
      */
-    public Cliente() {
+    public Cliente(String nombre)throws Exception{
+        this.nombre = nombre;
+        this.PUERTO = 60000;
+        this.IP = InetAddress.getLocalHost().getHostAddress();
         initComponents();
     }
 
@@ -237,6 +250,23 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
     }
+    
+    private class EnviaMensaje implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Socket socket = new Socket(IP,PUERTO);
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                out.writeUTF();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel NombreUusarioEnvia;
